@@ -58,8 +58,10 @@ For good practice for Python package management, it is recommended to install th
 First, clone the repo with `--recursive` and cd into it:
 
 ```Shell
-git clone --recursive https://github.com/NVlabs/handover-sim2real.git
+git clone git@github.com:wangrp1997/handover-sim2real.git
 cd handover-sim2real
+git submodule sync --recursive
+git submodule update --init --recursive
 ```
 
 Installation consists of four modules:
@@ -118,8 +120,12 @@ Below are the step-by-step installation commands:
     git clone https://github.com/liruiw/Pointnet2_PyTorch
     cd Pointnet2_PyTorch
     git checkout dabe33a
-    pip install --no-deps -e ./pointnet2_ops_lib
-    cd ..
+    cd /pointnet2_ops_lib && \
+    pip uninstall -y pointnet2_ops || true && \
+    python setup.py clean && rm -rf build *.egg-info && \
+    export TORCH_CUDA_ARCH_LIST="8.9;9.0;10.0+PTX" && \
+    export CUDA_HOME=/usr/local/cuda-12.8 && \
+    pip install -v --no-deps -e .
 
     # Download data.
     gdown 1Zpcv11HMaFiNd5yNn8QHNSXORJ_8NDjB
